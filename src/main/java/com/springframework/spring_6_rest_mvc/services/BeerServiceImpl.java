@@ -3,6 +3,7 @@ package com.springframework.spring_6_rest_mvc.services;
 import com.springframework.spring_6_rest_mvc.model.Beer;
 import com.springframework.spring_6_rest_mvc.model.BeerStyle;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,7 +29,8 @@ public class BeerServiceImpl implements BeerService {
                 .price(BigDecimal.valueOf(12.99))
                 .quantityOnHand(122)
                 .createdDate(LocalDateTime.now())
-                .updatedDate(LocalDateTime.now()).build();
+                .updatedDate(LocalDateTime.now())
+                .build();
 
         Beer beer2 = Beer.builder()
                 .id(UUID.randomUUID())
@@ -39,7 +41,8 @@ public class BeerServiceImpl implements BeerService {
                 .price(BigDecimal.valueOf(19.99))
                 .quantityOnHand(300)
                 .createdDate(LocalDateTime.now())
-                .updatedDate(LocalDateTime.now()).build();
+                .updatedDate(LocalDateTime.now())
+                .build();
 
         Beer beer3 = Beer.builder()
                 .id(UUID.randomUUID())
@@ -50,7 +53,8 @@ public class BeerServiceImpl implements BeerService {
                 .price(BigDecimal.valueOf(20))
                 .quantityOnHand(4)
                 .createdDate(LocalDateTime.now())
-                .updatedDate(LocalDateTime.now()).build();
+                .updatedDate(LocalDateTime.now())
+                .build();
 
         beerMap.put(beer1.getId(), beer1);
         beerMap.put(beer2.getId(), beer2);
@@ -63,8 +67,24 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public Beer getBeerById(UUID id) {
+    public Beer getBeerById(@NonNull UUID id) {
         log.info("Get Beer Id in service is called");
         return beerMap.get(id);
+    }
+
+    @Override
+    public Beer saveNewBeer(@NonNull Beer beer) {
+        Beer savedBeer = Beer.builder()
+                .id(UUID.randomUUID())
+                .beerName(beer.getBeerName())
+                .beerStyle(beer.getBeerStyle())
+                .upc(beer.getUpc())
+                .price(beer.getPrice())
+                .quantityOnHand(beer.getQuantityOnHand())
+                .createdDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
+                .build();
+        beerMap.put(savedBeer.getId(), savedBeer);
+        return savedBeer;
     }
 }
