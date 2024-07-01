@@ -21,6 +21,7 @@ public class BeerController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Beer> getBeerList() {
+        log.info("Get BeerList in controller");
         return beerService.getBeerList();
     }
 
