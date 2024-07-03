@@ -28,4 +28,10 @@ public class CustomerController {
         log.info("get customer by id triggered");
         return customerService.getCustomerById(id);
     }
+
+    @PostMapping()
+    public Customer createCustomer(@RequestBody Customer customer) {
+        log.info("create customer triggered");
+        return customerService.createCustomer(customer);
+    }
 }
