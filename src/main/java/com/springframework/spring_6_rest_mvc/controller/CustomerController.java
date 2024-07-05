@@ -18,7 +18,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping()
-    public List<Customer> getCusotmerList() {
+    public List<Customer> getCustomerList() {
         log.info("get customer list triggered");
         return customerService.getCustomerList();
     }
