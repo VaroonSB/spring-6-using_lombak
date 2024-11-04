@@ -1,9 +1,11 @@
 package com.springframework.spring_6_rest_mvc.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springframework.spring_6_rest_mvc.model.Beer;
 import com.springframework.spring_6_rest_mvc.services.BeerService;
 import com.springframework.spring_6_rest_mvc.services.BeerServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,23 +15,34 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Slf4j
 @WebMvcTest(BeerController.class)
 class BeerControllerTest {
+
+    @Autowired
+    ObjectMapper objectMapper;
+
     @Autowired
     MockMvc mockMvc;
 
     @MockBean
     BeerService beerService;
 
-    BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
+    BeerServiceImpl beerServiceImpl;
+
+    @BeforeEach
+    void setUp() {
+        beerServiceImpl = new BeerServiceImpl();
+    }
 
     @Test
     void getBeerById() throws Exception {
@@ -58,5 +71,21 @@ class BeerControllerTest {
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(content().contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(jsonPath("$.length()", is(3)));
+    }
+
+    @Test
+    void createNewBeer() throws Exception {
+        Beer beer = beerServiceImpl.getBeerList()
+                                   .get(0);
+        beer.setVersion(null);
+        beer.setId(null);
+
+        given(beerService.saveNewBeer(any(Beer.class))).willReturn(beerServiceImpl.getBeerList()
+                                                                                  .get(1));
+
+        mockMvc.perform(post("/api/v1/beer").accept(MediaType.APPLICATION_JSON)
+                                            .contentType(MediaType.APPLICATION_JSON)
+                                            .content(objectMapper.writeValueAsString(beer)))
+               .andExpect(status().isCreated());
     }
 }
