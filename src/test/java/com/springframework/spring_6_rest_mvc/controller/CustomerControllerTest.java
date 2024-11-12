@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -80,5 +82,14 @@ class CustomerControllerTest {
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .content(objectMapper.writeValueAsString(customer)))
                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getBeerByIdNotFound() throws Exception {
+
+        given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/api/v1/customer" + UUID.randomUUID()))
+               .andExpect(status().isNotFound());
     }
 }
