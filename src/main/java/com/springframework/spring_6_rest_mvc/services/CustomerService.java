@@ -1,15 +1,15 @@
 package com.springframework.spring_6_rest_mvc.services;
 
-import com.springframework.spring_6_rest_mvc.model.Customer;
+import com.springframework.spring_6_rest_mvc.model.CustomerDTO;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface CustomerService {
-    Customer getCustomerById(UUID id);
+    CustomerDTO getCustomerById(UUID id);
 
-    List<Customer> getCustomerList();
+    List<CustomerDTO> getCustomerList();
 
-    Customer createCustomer(Customer customer);
+    CustomerDTO createCustomer(CustomerDTO customer);
 
 }

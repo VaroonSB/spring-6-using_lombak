@@ -1,7 +1,7 @@
 package com.springframework.spring_6_rest_mvc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.springframework.spring_6_rest_mvc.model.Customer;
+import com.springframework.spring_6_rest_mvc.model.CustomerDTO;
 import com.springframework.spring_6_rest_mvc.services.CustomerService;
 import com.springframework.spring_6_rest_mvc.services.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,8 +54,8 @@ class CustomerControllerTest {
 
     @Test
     void getCustomerById() throws Exception {
-        Customer customer = customerServiceImpl.getCustomerList()
-                                               .get(0);
+        CustomerDTO customer = customerServiceImpl.getCustomerList()
+                                                  .get(0);
 
         given(customerService.getCustomerById(customer.getId())).willReturn(customer);
 
@@ -70,11 +70,11 @@ class CustomerControllerTest {
 
     @Test
     void createNewCustomer() throws Exception {
-        Customer customer = customerServiceImpl.getCustomerList()
-                                               .get(0);
+        CustomerDTO customer = customerServiceImpl.getCustomerList()
+                                                  .get(0);
         customer.setId(null);
 
-        given(customerService.createCustomer(any(Customer.class))).willReturn(
+        given(customerService.createCustomer(any(CustomerDTO.class))).willReturn(
                 customerServiceImpl.getCustomerList()
                                    .get(1));
 

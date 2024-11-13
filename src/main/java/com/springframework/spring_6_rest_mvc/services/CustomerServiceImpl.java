@@ -1,6 +1,6 @@
 package com.springframework.spring_6_rest_mvc.services;
 
-import com.springframework.spring_6_rest_mvc.model.Customer;
+import com.springframework.spring_6_rest_mvc.model.CustomerDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -10,18 +10,18 @@ import java.util.UUID;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private HashMap<UUID, Customer> customerMap;
+    private HashMap<UUID, CustomerDTO> customerMap;
 
     public CustomerServiceImpl() {
         this.customerMap = new HashMap<>();
 
-        Customer customer1 = Customer.builder().name("Muddi").age(14).id(UUID.randomUUID()).build();
-        Customer customer2 = Customer.builder().name("Vroom").age(24).id(UUID.randomUUID()).build();
-        Customer customer3 = Customer.builder()
-                .name("Shroom")
-                .age(34)
-                .id(UUID.randomUUID())
-                .build();
+        CustomerDTO customer1 = CustomerDTO.builder().name("Muddi").age(14).id(UUID.randomUUID()).build();
+        CustomerDTO customer2 = CustomerDTO.builder().name("Vroom").age(24).id(UUID.randomUUID()).build();
+        CustomerDTO customer3 = CustomerDTO.builder()
+                                           .name("Shroom")
+                                           .age(34)
+                                           .id(UUID.randomUUID())
+                                           .build();
 
         customerMap.put(customer1.getId(), customer1);
         customerMap.put(customer2.getId(), customer2);
@@ -29,22 +29,22 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getCustomerList() {
+    public List<CustomerDTO> getCustomerList() {
         return customerMap.values().stream().toList();
     }
 
     @Override
-    public Customer getCustomerById(UUID id) {
+    public CustomerDTO getCustomerById(UUID id) {
         return customerMap.get(id);
     }
 
     @Override
-    public Customer createCustomer(Customer customer) {
-        Customer saved = Customer.builder()
-                .id(UUID.randomUUID())
-                .name(customer.getName())
-                .age(customer.getAge())
-                .build();
+    public CustomerDTO createCustomer(CustomerDTO customer) {
+        CustomerDTO saved = CustomerDTO.builder()
+                                       .id(UUID.randomUUID())
+                                       .name(customer.getName())
+                                       .age(customer.getAge())
+                                       .build();
         customerMap.put(saved.getId(), saved);
         return saved;
     }
