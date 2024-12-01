@@ -69,9 +69,9 @@ public class BeerServiceImpl
     }
 
     @Override
-    public BeerDTO getBeerById(@NonNull UUID id) {
+    public Optional<BeerDTO> getBeerById(@NonNull UUID id) {
         log.info("Get Beer Id in service is called");
-        return beerMap.get(id);
+        return Optional.ofNullable(beerMap.get(id));
     }
 
     @Override

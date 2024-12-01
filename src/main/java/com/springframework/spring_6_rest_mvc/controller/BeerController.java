@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -28,7 +29,7 @@ public class BeerController {
     }
 
     @GetMapping(BEER_PATH_ID)
-    public BeerDTO getBeerById(@PathVariable("beerId") UUID beerId) {
+    public Optional<BeerDTO> getBeerById(@PathVariable("beerId") UUID beerId) {
         log.info("Get Beer by Id in controller");
         return beerService.getBeerById(beerId);
     }
