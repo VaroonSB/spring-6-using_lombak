@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -57,7 +58,7 @@ class CustomerControllerTest {
         CustomerDTO customer = customerServiceImpl.getCustomerList()
                                                   .get(0);
 
-        given(customerService.getCustomerById(customer.getId())).willReturn(customer);
+        given(customerService.getCustomerById(customer.getId())).willReturn(Optional.of(customer));
 
         ResultActions resultActions = mockMvc.perform(get("/api/v1/customer/" + customer.getId()));
 
