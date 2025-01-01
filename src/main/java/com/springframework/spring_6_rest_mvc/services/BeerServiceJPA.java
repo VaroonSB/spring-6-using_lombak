@@ -24,7 +24,7 @@ public class BeerServiceJPA
     public List<BeerDTO> getBeerList() {
         return beerRepository.findAll()
                              .stream()
-                             .map(beerMapper::beerToBeerDto)
+                             .map(beerMapper::beerToBeerDto) // consider this like a callback for map(). beerToBeerDto is a function
                              .collect(Collectors.toList());
     }
 

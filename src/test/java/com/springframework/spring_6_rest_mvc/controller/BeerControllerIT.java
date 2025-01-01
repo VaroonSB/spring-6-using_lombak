@@ -1,5 +1,6 @@
 package com.springframework.spring_6_rest_mvc.controller;
 
+import com.springframework.spring_6_rest_mvc.entities.Beer;
 import com.springframework.spring_6_rest_mvc.model.BeerDTO;
 import com.springframework.spring_6_rest_mvc.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,5 +44,17 @@ class BeerControllerIT {
 
     @Test
     void getBeerById() {
+        Beer beer = beerRepository.findAll().get(0);
+
+        BeerDTO beerDTO = beerController.getBeerById(beer.getId());
+
+        assertThat(beerDTO).isNotNull();
+    }
+
+    @Test
+    void testBeerIdNotFound() {
+        assertThrows(NotFoundException.class, () -> {
+            beerController.getBeerById(UUID.randomUUID());
+        });
     }
 }
